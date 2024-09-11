@@ -52,7 +52,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
      'rest_framework_simplejwt',
-     'drf_yasg'
+     'drf_yasg',
+     'files'
 ]
 
 MIDDLEWARE = [
@@ -152,8 +153,8 @@ if not DEBUG:
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication'        
     )
 }
 
