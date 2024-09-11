@@ -95,20 +95,18 @@ WSGI_APPLICATION = 'djangobackend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DB_DATABASE') or 'cuban-engineer',
-        'USER': os.getenv('DB_USER') or 'postgres',
-        'PASSWORD': os.getenv('DB_PASSWORD') or 'postgres',
-        'HOST': os.getenv('DB_HOST') or 'localhost',
-        'PORT': os.getenv('DB_PORT') or 5432
+        'NAME': os.getenv('DB_DATABASE','cuban-engineer'),
+        'USER': os.getenv('DB_USER','postgres'),
+        'PASSWORD': os.getenv('DB_PASSWORD','postgres'),
+        'HOST': os.getenv('DB_HOST','localhost'),
+        'PORT': os.getenv('DB_PORT',5432)
     }
 }
 
-DATABASE_URL = os.getenv('DATABASE_URL')
-
-if DATABASE_URL:
+if not DEBUG:
     DATABASES['default'] = dj_database_url.config(
-      default='sqlite:///db.sqlite3', 
-      conn_max_age=600
+     conn_max_age=600,
+     conn_health_checks=True,
     )
 
 # Password validation
