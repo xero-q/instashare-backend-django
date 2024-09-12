@@ -51,9 +51,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-     'rest_framework_simplejwt',
-     'drf_yasg',
-     'files'
+    'rest_framework_simplejwt',
+    'drf_yasg',
+    'files',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
@@ -182,6 +183,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CSRF_TRUSTED_ORIGINS = ["http://localhost"]
 
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = ['http://localhost']
 
 APPEND_SLASH = False
