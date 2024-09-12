@@ -4,7 +4,6 @@ from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import status
-from rest_framework.exceptions import MethodNotAllowed
 from .serializers import UserSerializer,UploadedFileSerializer
 from .models import UploadedFile
 from django.contrib.auth.models import User
