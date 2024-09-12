@@ -3,6 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.exceptions import MethodNotAllowed
 from .serializers import UserSerializer,UploadedFileSerializer
 from .models import UploadedFile
 from django.contrib.auth.models import User
@@ -29,9 +30,19 @@ class FileUploadView(APIView):
     def get(self, request):
         files = UploadedFile.objects.all()
         serializer = UploadedFileSerializer(files, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)   
+  
+        
+class FileUploadByIdView(APIView):
+    parser_classes = [MultiPartParser]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]   
+
+    def get(self, request):
+        files = UploadedFile.objects.all()
+        serializer = UploadedFileSerializer(files, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
-    def put(self, request, pk, *args, **kwargs):
+    def put(self, request, pk, *args, **kwargs):        
         try:
             uploaded_file = UploadedFile.objects.get(pk=pk)
             new_name = request.data.get('new_name')

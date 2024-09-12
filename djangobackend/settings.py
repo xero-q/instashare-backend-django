@@ -184,3 +184,4 @@ CSRF_TRUSTED_ORIGINS = ["http://localhost"]
 
 CORS_ALLOW_ALL_ORIGINS = True
 
+APPEND_SLASH = False
