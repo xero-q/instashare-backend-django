@@ -8,6 +8,8 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from .serializers import UserSerializer,UploadedFileSerializer, CustomTokenObtainPairSerializer
 from .models import UploadedFile
 from django.contrib.auth.models import User
+from django.conf import settings
+import os
 
 class SignupView(generics.CreateAPIView):
     queryset = User.objects.all()
@@ -35,8 +37,7 @@ class FileUploadView(APIView):
     pagination_class = FilesPagination
 
     def post(self, request, *args, **kwargs):
-        print(f"User: {request.user}, Auth: {request.auth}")
-        uploaded_file = request.FILES['file']
+        uploaded_file = request.FILES['file']        
         file_instance = UploadedFile.objects.create(
             file=uploaded_file,
             original_name=uploaded_file.name,
@@ -47,14 +48,27 @@ class FileUploadView(APIView):
   
         
 class FileUploadByIdView(APIView):
-    parser_classes = [MultiPartParser]
     permission_classes = [permissions.IsAuthenticated]      
     
     def put(self, request, pk, *args, **kwargs):        
         try:
             uploaded_file = UploadedFile.objects.get(pk=pk)
             new_name = request.data.get('new_name')
-            uploaded_file.new_name = new_name
+
+            SEPARATOR = '/'
+
+            file_real_name = uploaded_file.file.name.split(SEPARATOR)[-1] 
+
+            original_name_path = os.path.join(settings.BASE_DIR, 'uploads',file_real_name)
+            new_name_path = os.path.join(settings.BASE_DIR, 'uploads',new_name)
+            os.rename(original_name_path, new_name_path) 
+            
+            uploaded_file.new_name = new_name            
+            
+            file_name_array = uploaded_file.file.name.split(SEPARATOR)           
+            file_name_array[-1] = new_name       
+            uploaded_file.file.name = SEPARATOR.join(file_name_array)
+
             uploaded_file.save()
             serializer = UploadedFileSerializer(uploaded_file)
             return Response(serializer.data, status=status.HTTP_200_OK)
