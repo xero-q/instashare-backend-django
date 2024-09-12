@@ -4,7 +4,8 @@ from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import status
-from .serializers import UserSerializer,UploadedFileSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
+from .serializers import UserSerializer,UploadedFileSerializer, CustomTokenObtainPairSerializer
 from .models import UploadedFile
 from django.contrib.auth.models import User
 
@@ -59,3 +60,6 @@ class FileUploadByIdView(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         except UploadedFile.DoesNotExist:
             return Response({'error': 'File not found'}, status=status.HTTP_404_NOT_FOUND)
+        
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer

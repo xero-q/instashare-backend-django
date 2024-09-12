@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .models import UploadedFile
 
 class UserSerializer(serializers.ModelSerializer):
@@ -21,3 +22,8 @@ class UploadedFileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UploadedFile
         fields = ('id', 'original_name', 'new_name', 'size', 'status', 'file')
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    default_error_messages = {
+        'no_active_account': ('The username or password is incorrect.')
+    }
