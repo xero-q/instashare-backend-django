@@ -7,8 +7,12 @@ from rest_framework import status
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .serializers import UserSerializer,UploadedFileSerializer, CustomTokenObtainPairSerializer
 from .models import UploadedFile
+from django.shortcuts import get_object_or_404
+from django.http import HttpResponse, Http404
+from django.utils.encoding import smart_str
 from django.contrib.auth.models import User
 from django.conf import settings
+from rest_framework.decorators import api_view
 import os
 
 class SignupView(generics.CreateAPIView):
@@ -24,12 +28,6 @@ class FilesView(generics.ListAPIView):
     queryset = UploadedFile.objects.all()
     serializer_class = UploadedFileSerializer
     pagination_class = FilesPagination
-
-class FileView(APIView):
-    def get(self, request, pk):
-        file = UploadedFile.objects.get(pk=pk)
-        serializer = UploadedFileSerializer(file)
-        return Response(serializer.data, status=status.HTTP_200_OK)
 
 class FileUploadView(APIView):
     parser_classes = [MultiPartParser]
@@ -77,3 +75,25 @@ class FileUploadByIdView(APIView):
         
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
+
+@api_view()
+def download_file(request, pk):
+    # Fetch the file object
+    file_obj = get_object_or_404(UploadedFile, pk=pk)
+
+    SEPARATOR = '/'
+
+    file_real_name = file_obj.file.name.split(SEPARATOR)[-1] 
+
+    print(file_real_name)
+    
+    # Open the file for reading in binary mode
+    file_path = os.path.join(settings.BASE_DIR, 'uploads', file_real_name) 
+    
+    try:
+        with open(file_path, 'rb') as file:
+            response = HttpResponse(file.read(), content_type='application/octet-stream')
+            response['Content-Disposition'] = f'attachment; filename={smart_str(file_real_name)}'
+            return response
+    except FileNotFoundError:
+        raise Http404("File does not exist")
