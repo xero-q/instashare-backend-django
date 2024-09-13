@@ -10,3 +10,6 @@ python manage.py collectstatic --no-input
 
 # Apply any outstanding database migrations
 python manage.py migrate
+
+celery -A djangobackend worker --loglevel=info &
+celery -A djangobackend beat --loglevel=info &
