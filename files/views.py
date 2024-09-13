@@ -25,7 +25,7 @@ class FilesPagination(PageNumberPagination):
     max_page_size = 100
 
 class FilesView(generics.ListAPIView):
-    queryset = UploadedFile.objects.all()
+    queryset = UploadedFile.objects.all().order_by('id')
     serializer_class = UploadedFileSerializer
     pagination_class = FilesPagination
 
@@ -57,8 +57,8 @@ class FileUploadByIdView(APIView):
 
             file_real_name = uploaded_file.file.name.split(SEPARATOR)[-1] 
 
-            original_name_path = os.path.join(settings.BASE_DIR, 'uploads',file_real_name)
-            new_name_path = os.path.join(settings.BASE_DIR, 'uploads',new_name)
+            original_name_path = os.path.join(settings.BASE_DIR, settings.UPLOADS_FOLDER,file_real_name)
+            new_name_path = os.path.join(settings.BASE_DIR, settings.UPLOADS_FOLDER,new_name)
             os.rename(original_name_path, new_name_path) 
             
             uploaded_file.new_name = new_name            

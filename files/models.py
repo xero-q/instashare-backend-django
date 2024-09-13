@@ -1,9 +1,10 @@
 from django.db import models
+from django.conf import settings
 
 # Create your models here.
 
 class UploadedFile(models.Model):
-    file = models.FileField(upload_to='uploads/')
+    file = models.FileField(upload_to=settings.UPLOADS_FOLDER+'/',max_length=255)
     original_name = models.CharField(max_length=255)
     new_name = models.CharField(max_length=255, blank=True, null=True)
     size = models.PositiveIntegerField()

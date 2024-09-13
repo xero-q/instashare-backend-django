@@ -15,6 +15,7 @@ from pathlib import Path
 import dj_database_url
 from dotenv import load_dotenv
 from datetime import timedelta
+from celery.schedules import crontab
 
 load_dotenv()
 
@@ -54,7 +55,8 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'drf_yasg',
     'files',
-    'corsheaders'
+    'corsheaders',
+    'django_celery_beat'
 ]
 
 MIDDLEWARE = [
@@ -186,3 +188,20 @@ CSRF_TRUSTED_ORIGINS = ["http://localhost"]
 CORS_ALLOWED_ORIGINS = ['http://localhost']
 
 APPEND_SLASH = False
+
+UPLOADS_FOLDER = 'uploads'
+
+CELERY_BROKER_URL = 'redis://localhost:6379/0'  
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+
+CELERY_BEAT_SCHEDULE = {
+    'compress_files_every_hour': {
+        'task': 'files.tasks.compress_files',
+        'schedule': crontab(minute=0, hour='*/1'),  # Every hour
+    },
+}
+
+
