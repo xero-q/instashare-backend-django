@@ -194,8 +194,8 @@ CELERY_BROKER_URL = 'redis://localhost:6379/0'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 
 if not DEBUG:
-    CELERY_BROKER_URL = 'redis://red-cribb1ij1k6c73as408g:6379'  
-    CELERY_RESULT_BACKEND = 'redis://red-cribb1ij1k6c73as408g:6379'
+    CELERY_BROKER_URL = 'rediss://red-cribb1ij1k6c73as408g:XlmlM7A53ySWRVxJQHhKxKKyiZgmHAhM@oregon-redis.render.com:6379'  
+    CELERY_RESULT_BACKEND = 'rediss://red-cribb1ij1k6c73as408g:XlmlM7A53ySWRVxJQHhKxKKyiZgmHAhM@oregon-redis.render.com:6379'
 
 
 CELERY_ACCEPT_CONTENT = ['json']
