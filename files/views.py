@@ -35,11 +35,13 @@ class FileUploadView(APIView):
     pagination_class = FilesPagination
 
     def post(self, request, *args, **kwargs):
-        uploaded_file = request.FILES['file']        
+        uploaded_file = request.FILES['file']
+        status_file = "compressed" if uploaded_file.name.endswith('.zip') else "uploaded"
         file_instance = UploadedFile.objects.create(
             file=uploaded_file,
             original_name=uploaded_file.name,
             size=uploaded_file.size,
+            status=status_file
         )
         serializer = UploadedFileSerializer(file_instance)
         return Response(serializer.data, status=status.HTTP_201_CREATED)   

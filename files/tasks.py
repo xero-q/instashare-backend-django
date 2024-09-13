@@ -6,7 +6,7 @@ from django.conf import settings
 
 @shared_task
 def compress_files():
-    files_to_compress = UploadedFile.objects.filter(status='uploaded') 
+    files_to_compress = UploadedFile.objects.filter(status='uploaded')
 
     for file_record in files_to_compress:
         file_real_name_parts = file_record.file.name.split('/')
