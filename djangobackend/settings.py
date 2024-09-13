@@ -198,9 +198,9 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 
 CELERY_BEAT_SCHEDULE = {
-    'compress_files_every_hour': {
+    'compress_files_every_10_minutes': {
         'task': 'files.tasks.compress_files',
-        'schedule': crontab(minute=0, hour='*/1'),  # Every hour
+        'schedule': crontab(minute='*/10'),  # Every hour
     },
 }
 
