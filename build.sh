@@ -12,4 +12,4 @@ python manage.py collectstatic --no-input
 python manage.py migrate
 
 celery -A djangobackend worker --loglevel=info &
-celery -A djangobackend beat --loglevel=info &
+celery -A djangobackend beat --loglevel=info 
