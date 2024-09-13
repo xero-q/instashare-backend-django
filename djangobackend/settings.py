@@ -191,8 +191,16 @@ APPEND_SLASH = False
 
 UPLOADS_FOLDER = 'uploads'
 
+
+
 CELERY_BROKER_URL = 'redis://localhost:6379/0'  
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+
+if not DEBUG:
+    CELERY_BROKER_URL = 'redis://red-cribb1ij1k6c73as408g:6379'  
+    CELERY_RESULT_BACKEND = 'redis://red-cribb1ij1k6c73as408g:6379'
+
+
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
@@ -200,7 +208,7 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_BEAT_SCHEDULE = {
     'compress_files_every_10_minutes': {
         'task': 'files.tasks.compress_files',
-        'schedule': crontab(minute='*/10'),  # Every hour
+        'schedule': crontab(minute='*/10'),  # Every 10 minutes
     },
 }
 
