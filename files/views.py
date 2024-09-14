@@ -89,7 +89,6 @@ def download_file(request, pk):
 
     print(file_real_name)
     
-    # Open the file for reading in binary mode
     file_path = os.path.join(settings.BASE_DIR, settings.UPLOADS_FOLDER, file_real_name) 
     
     try:
