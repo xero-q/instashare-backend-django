@@ -39,7 +39,7 @@ class FileUploadView(APIView):
         status_file = "compressed" if uploaded_file.name.endswith('.zip') else "uploaded"
         file_instance = UploadedFile.objects.create(
             file=uploaded_file,
-            original_name=uploaded_file.name,
+            name=uploaded_file.name,
             size=uploaded_file.size,
             status=status_file
         )
@@ -53,20 +53,20 @@ class FileUploadByIdView(APIView):
     def put(self, request, pk, *args, **kwargs):        
         try:
             uploaded_file = UploadedFile.objects.get(pk=pk)
-            new_name = request.data.get('new_name')
+            name = request.data.get('name')
 
             SEPARATOR = '/'
 
             file_real_name = uploaded_file.file.name.split(SEPARATOR)[-1] 
 
             original_name_path = os.path.join(settings.BASE_DIR, settings.UPLOADS_FOLDER,file_real_name)
-            new_name_path = os.path.join(settings.BASE_DIR, settings.UPLOADS_FOLDER,new_name)
+            new_name_path = os.path.join(settings.BASE_DIR, settings.UPLOADS_FOLDER,name)
             os.rename(original_name_path, new_name_path) 
             
-            uploaded_file.new_name = new_name            
+            uploaded_file.name = name            
             
             file_name_array = uploaded_file.file.name.split(SEPARATOR)           
-            file_name_array[-1] = new_name       
+            file_name_array[-1] = name       
             uploaded_file.file.name = SEPARATOR.join(file_name_array)
 
             uploaded_file.save()

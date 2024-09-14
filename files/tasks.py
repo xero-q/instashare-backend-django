@@ -20,7 +20,7 @@ def compress_files():
             zipf.write(file_path, os.path.basename(file_path))
 
         # Replace original file with the compressed file in the database
-        file_record.new_name = f"{file_real_name}.zip"
+        file_record.name = f"{file_real_name}.zip"
         file_real_name_parts[-1] = f"{file_real_name}.zip"
         file_record.file.name = '/'.join(file_real_name_parts)
         file_record.status = 'compressed'
