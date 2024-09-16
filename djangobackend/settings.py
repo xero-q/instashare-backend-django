@@ -188,8 +188,8 @@ APPEND_SLASH = False
 
 UPLOADS_FOLDER = 'uploads'
 
-CELERY_BROKER_URL = 'redis://localhost:6379/0'  
-CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_BROKER_URL = os.getenv('REDIS_URL','redis://localhost:6379/0')  
+CELERY_RESULT_BACKEND = os.getenv('REDIS_URL','redis://localhost:6379/0')
 
 if not DEBUG:
     CELERY_BROKER_URL = 'rediss://red-cribb1ij1k6c73as408g:XlmlM7A53ySWRVxJQHhKxKKyiZgmHAhM@oregon-redis.render.com:6379'  
@@ -206,7 +206,6 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': crontab(minute='*/10'),  # Every 10 minutes
     },
 }
-
 
 STATIC_URL = '/static/'
 if not DEBUG:   
