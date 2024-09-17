@@ -59,3 +59,32 @@ class FileUpdateByIdTest(APITestCase):
 
         self.file.refresh_from_db()
         self.assertEqual(self.file.name, 'updatedfile.txt') 
+
+class FileDownloadTest(APITestCase):
+    def setUp(self):
+        # Create user and obtain token
+        self.user = User.objects.create_user(username='testuser', password='testpassword')
+        refresh = RefreshToken.for_user(self.user)
+        self.access_token = str(refresh.access_token)
+
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.access_token}')
+
+        self.file_content = b'This is a test file.'
+        self.uploaded_filename = 'test.txt'
+
+        url_upload_file = reverse('file-upload')
+        file = SimpleUploadedFile(self.uploaded_filename, self.file_content, content_type='text/plain')
+        self.client.post(url_upload_file, {'file': file}, format='multipart')
+        self.file = UploadedFile.objects.get(name=self.uploaded_filename)
+
+
+    def test_file_download(self):
+        pk = self.file.id 
+        url = reverse('file-download', kwargs={'pk': pk})
+
+        response = self.client.get(url, content_type='application/json')
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.content, self.file_content)
+
+        
