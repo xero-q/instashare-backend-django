@@ -109,4 +109,48 @@ class FileDownloadTest(APITestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.content, self.file_content)
 
+
+class FilesListTest(APITestCase):
+    def setUp(self):
+        # Create user and obtain token
+        self.user = User.objects.create_user(username='testuser', password='testpassword')
+        refresh = RefreshToken.for_user(self.user)
+        self.access_token = str(refresh.access_token)
+
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.access_token}')
+
+        self.uploaded_filename_1 = 'test1.txt'
+        self.uploaded_filename_2 = 'test2.txt'
+
+
+        url_upload_file = reverse('file-upload')
+
+        file1 = SimpleUploadedFile(self.uploaded_filename_1, b'Test file', content_type='text/plain')
+        self.client.post(url_upload_file, {'file': file1}, format='multipart')
+
+        file2 = SimpleUploadedFile(self.uploaded_filename_2, b'Test file', content_type='text/plain')
+        self.client.post(url_upload_file, {'file': file2}, format='multipart')       
+
+
+    def tearDown(self):
+        # Clean up the uploaded file after each test
+        file_path1 = os.path.join(settings.UPLOADS_FOLDER, self.uploaded_filename_1)
+        if os.path.exists(file_path1):
+            os.remove(file_path1)
+
+        file_path2 = os.path.join(settings.UPLOADS_FOLDER, self.uploaded_filename_2)
+        if os.path.exists(file_path2):
+            os.remove(file_path2)
+
+    def test_files_list(self):
+        url = reverse('file-list')
+
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 200)
+        list_files = response.json()['results']
+       
+        self.assertEqual(list_files[0]['name'], self.uploaded_filename_1)
+        self.assertEqual(list_files[1]['name'], self.uploaded_filename_2)
+
         
