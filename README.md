@@ -18,3 +18,6 @@
     - `celery -A djangobackend worker --loglevel=INFO`
     - `celery -A djangobackend beat --loglevel=INFO`
 - Run `python manage.py runserver`
+
+#### Tests
+-  For running tests: `python manage.py test`

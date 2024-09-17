@@ -26,7 +26,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 schema_view = get_schema_view(
    openapi.Info(
-      title="Cuban Engineer Senior Technical Test API",
+      title="Files Upload - Django DRF",
       default_version='v1',
       description="Swagger",
       terms_of_service="https://www.google.com/policies/terms/",

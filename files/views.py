@@ -47,7 +47,7 @@ class FileUploadView(APIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED)   
   
         
-class FileUploadByIdView(APIView):
+class FileUpdateByIdView(APIView):
     permission_classes = [permissions.IsAuthenticated]      
     
     def put(self, request, pk, *args, **kwargs):        
