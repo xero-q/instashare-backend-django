@@ -182,7 +182,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CSRF_TRUSTED_ORIGINS = ["http://localhost"]
 
-CORS_ALLOWED_ORIGINS = ['http://localhost']
+CORS_ALLOWED_ORIGINS = ['http://localhost:4200']
+
+if not DEBUG: # Production
+    CORS_ALLOWED_ORIGINS = ['https://angular-frontend-sigma.vercel.app'] 
 
 APPEND_SLASH = False
 
