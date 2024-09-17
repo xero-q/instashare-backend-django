@@ -6,6 +6,8 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import UploadedFile
 import json
+import os
+from django.conf import settings
 
 class SignupViewTest(APITestCase):
     def test_signup(self):
@@ -24,6 +26,13 @@ class FileUploadTest(APITestCase):
         self.user = User.objects.create_user(username='testuser', password='testpassword')
         refresh = RefreshToken.for_user(self.user)
         self.access_token = str(refresh.access_token)
+
+    def tearDown(self):
+        # Clean up the uploaded file after each test
+        file_path = os.path.join(settings.UPLOADS_FOLDER, 'test.txt')
+        if os.path.exists(file_path):
+            os.remove(file_path)
+
 
     def test_file_upload(self):
         url = reverse('file-upload')  
@@ -46,6 +55,12 @@ class FileUpdateByIdTest(APITestCase):
         self.client.post(url_upload_file, {'file': file}, format='multipart')
         self.file = UploadedFile.objects.get(name='test.txt')
 
+    def tearDown(self):
+        # Clean up the uploaded file after each test
+        file_path = os.path.join(settings.UPLOADS_FOLDER, 'updatedfile.txt')
+        if os.path.exists(file_path):
+            os.remove(file_path)    
+
 
     def test_file_update(self):
         pk = self.file.id 
@@ -59,6 +74,7 @@ class FileUpdateByIdTest(APITestCase):
 
         self.file.refresh_from_db()
         self.assertEqual(self.file.name, 'updatedfile.txt') 
+
 
 class FileDownloadTest(APITestCase):
     def setUp(self):
@@ -77,6 +93,12 @@ class FileDownloadTest(APITestCase):
         self.client.post(url_upload_file, {'file': file}, format='multipart')
         self.file = UploadedFile.objects.get(name=self.uploaded_filename)
 
+
+    def tearDown(self):
+        # Clean up the uploaded file after each test
+        file_path = os.path.join(settings.UPLOADS_FOLDER, self.uploaded_filename)
+        if os.path.exists(file_path):
+            os.remove(file_path)
 
     def test_file_download(self):
         pk = self.file.id 
