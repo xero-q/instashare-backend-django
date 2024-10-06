@@ -87,8 +87,6 @@ def download_file(request, pk):
 
     file_real_name = file_obj.file.name.split(SEPARATOR)[-1] 
 
-    print(file_real_name)
-    
     file_path = os.path.join(settings.BASE_DIR, settings.UPLOADS_FOLDER, file_real_name) 
     
     try:
