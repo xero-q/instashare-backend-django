@@ -22,7 +22,7 @@ from drf_yasg import openapi
 from files.views import CustomTokenObtainPairView
 
 
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from rest_framework_simplejwt.views import TokenRefreshView
 
 schema_view = get_schema_view(
    openapi.Info(
