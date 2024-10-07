@@ -1,13 +1,13 @@
 import os
 import zipfile
 from celery import shared_task
-from .models import UploadedFile
+from .models import FileStatus, UploadedFile
 from django.conf import settings
 
 
 @shared_task
 def compress_files():
-    files_to_compress = UploadedFile.objects.filter(status="uploaded")
+    files_to_compress = UploadedFile.objects.filter(status=FileStatus.uploaded)
 
     for file_record in files_to_compress:
         file_real_name_parts = file_record.file.name.split("/")
@@ -33,7 +33,7 @@ def compress_files():
         file_real_name_parts[-1] = f"{file_real_name}.zip"
         file_record.file.name = "/".join(file_real_name_parts)
         file_record.size = new_file_size
-        file_record.status = "compressed"
+        file_record.status = FileStatus.compressed
 
         file_record.save()
 
