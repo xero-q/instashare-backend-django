@@ -15,4 +15,4 @@ class UploadedFile(models.Model):
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.name
+        return f'{self.name} ({self.status}) uploaded: {self.uploaded_at:%d-%b-%Y %H:%M:%S}'
