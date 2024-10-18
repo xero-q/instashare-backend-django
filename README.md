@@ -1,6 +1,24 @@
 ### InstaShare (Django v5.1.1)
 
-#### Steps
+#### Steps to run the project containerized
+- Install Docker and Docker Compose
+- Create a file `.env` in the root folder and set the following environment variables:
+    - `DB_DATABASE`
+    - `DB_USER`
+    - `DB_PASSWORD`
+    - `DB_PORT`
+    
+- Run these commands:
+```sh
+docker-compose build
+docker-compose up
+```
+- To stop the project, run:
+```sh
+docker-compose down
+```
+
+#### Steps to run the project manually
 - First, install the dependencies:
 ```sh
 pip install -r requirements.txt
@@ -32,6 +50,8 @@ python manage.py migrate
 ```sh
 python manage.py runserver
 ```
+
+
 
 #### Tests
 -  For running tests: 
