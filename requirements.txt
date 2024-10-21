@@ -1,6 +1,8 @@
 amqp==5.2.0
 asgiref==3.8.1
+astroid==3.3.5
 billiard==4.2.0
+black @ git+https://github.com/psf/black@a22b1ebbfd61fdc4f59de373abcc02c4db364359
 Brotli==1.1.0
 celery==5.4.0
 click==8.1.7
@@ -8,6 +10,7 @@ click-didyoumean==0.3.1
 click-plugins==1.1.1
 click-repl==0.3.0
 cron-descriptor==1.4.5
+dill==0.3.9
 dj-database-url==2.2.0
 Django==5.1.1
 django-celery-beat==2.7.0
@@ -20,12 +23,18 @@ gunicorn==23.0.0
 h11==0.14.0
 inflection==0.5.1
 iniconfig==2.0.0
+isort==5.13.2
 kombu==5.4.1
+mccabe==0.7.0
+mypy-extensions==1.0.0
 packaging==24.1
+pathspec==0.12.1
+platformdirs==4.3.6
 pluggy==1.5.0
 prompt_toolkit==3.0.47
 psycopg2-binary==2.9.9
 PyJWT==2.9.0
+pylint==3.3.1
 pytest==8.3.2
 pytest-django==4.9.0
 python-crontab==3.2.0
@@ -37,6 +46,7 @@ redis==5.0.8
 rest-framework-simplejwt==0.0.2
 six==1.16.0
 sqlparse==0.5.1
+tomlkit==0.13.2
 typing_extensions==4.12.2
 tzdata==2024.1
 uritemplate==4.1.1

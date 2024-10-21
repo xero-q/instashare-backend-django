@@ -6,10 +6,14 @@ WORKDIR /app
 
 # Step 3: Install system dependencies
 RUN apt-get update && apt-get install -y \
+    git \    
     libpq-dev \
     gcc \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
+
+# Install Python dependencies
+RUN pip install --upgrade pip setuptools wheel
 
 # Step 4: Copy the requirements file to the container
 COPY requirements.txt .
