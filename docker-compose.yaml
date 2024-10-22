@@ -23,8 +23,7 @@ services:
       - CELERY_RESULT_BACKEND=redis://redis:6379/0  # Use REDIS_URL
 
   db:
-    image: postgres:15
-    container_name: postgres_db
+    image: postgres:15    
     environment:
       POSTGRES_DB: ${DB_DATABASE}
       POSTGRES_USER: ${DB_USER}
@@ -33,7 +32,7 @@ services:
     ports:
       - "${DB_PORT}:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data  
+      - postgres_data_instashare:/var/lib/postgresql/data  
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "${DB_USER}"]
       interval: 10s
@@ -81,4 +80,4 @@ services:
       - CELERY_RESULT_BACKEND=redis://redis:6379/0  # Use REDIS_URL
 
 volumes:
-  postgres_data:
+  postgres_data_instashare:
