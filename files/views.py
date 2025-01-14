@@ -5,6 +5,8 @@ from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import status
 from rest_framework_simplejwt.views import TokenObtainPairView
+
+from .constants import COMPRESSED
 from .serializers import (
     UserSerializer,
     UploadedFileSerializer,
@@ -18,7 +20,7 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from rest_framework.decorators import api_view
 import os
-
+from .constants import *
 
 class SignupView(generics.CreateAPIView):
     queryset = User.objects.all()
@@ -45,7 +47,7 @@ class FileUploadView(APIView):
     def post(self, request, *args, **kwargs):
         uploaded_file = request.FILES["file"]
         status_file = (
-            "compressed" if uploaded_file.name.endswith(".zip") else "uploaded"
+            COMPRESSED if uploaded_file.name.endswith(".zip") else UPLOADED
         )
         file_instance = UploadedFile.objects.create(
             file=uploaded_file,

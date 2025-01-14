@@ -1,11 +1,12 @@
 from django.db import models
 from django.conf import settings
+from .constants import *
 
 # Create your models here.
 
 class FileStatus(models.TextChoices):
-    uploaded = 'uploaded'
-    compressed = 'compressed'
+    uploaded = UPLOADED
+    compressed = COMPRESSED
 
 class UploadedFile(models.Model):
     file = models.FileField(upload_to=settings.UPLOADS_FOLDER + "/", max_length=255)

@@ -1,0 +1,2 @@
+COMPRESSED="compressed"
+UPLOADED="uploaded"
