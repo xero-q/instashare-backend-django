@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "files",
     "corsheaders",
     "django_celery_beat",
+    "apis"
 ]
 
 MIDDLEWARE = [
