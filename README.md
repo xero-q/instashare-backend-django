@@ -23,12 +23,6 @@ docker-compose down
 
 #### Steps to run the project manually
 
-- First, install the dependencies:
-
-```sh
-uv pip install --system --no-deps
-```
-
 - You will need a PostgreSQL database server
 - Create a file `.env` in the root folder and set the following environment variables:
 
